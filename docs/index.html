@@ -1,0 +1,1089 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="description"
+            content="NutKeeper — Automatically sort your files by type and date. Free macOS app."
+        />
+        <meta
+            property="og:title"
+            content="NutKeeper — Organise your files, effortlessly"
+        />
+        <meta
+            property="og:description"
+            content="One click to sort every file in a folder by type and date. Free, offline, no account needed."
+        />
+        <meta property="og:image" content="nutkeeper_icon_rounded.png" />
+        <title>NutKeeper — Organise your files, effortlessly</title>
+        <style>
+            *,
+            *::before,
+            *::after {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            :root {
+                --bg: #f9f4f1;
+                --surface: #ffffff;
+                --accent: #ae6e52;
+                --accent-d: #8c5540;
+                --accent-l: #f0e4da;
+                --accent-l2: #e8d4c6;
+                --label: #311717;
+                --label2: #7a4f3e;
+                --muted: #b08878;
+                --sep: #ecddd5;
+                --term: #1c0e0e;
+                --radius-lg: 22px;
+                --radius-md: 14px;
+                --radius-sm: 10px;
+            }
+
+            html {
+                scroll-behavior: smooth;
+            }
+
+            body {
+                font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+                background: var(--bg);
+                color: var(--label);
+                -webkit-font-smoothing: antialiased;
+            }
+
+            a {
+                color: inherit;
+                text-decoration: none;
+            }
+            img {
+                display: block;
+            }
+
+            .container {
+                max-width: 1120px;
+                margin: 0 auto;
+                padding: 0 40px;
+            }
+
+            nav {
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                background: rgba(249, 244, 241, 0.82);
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                border-bottom: 1px solid var(--sep);
+            }
+            .nav-inner {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 62px;
+            }
+            .nav-logo {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .nav-logo img {
+                width: 30px;
+                height: 30px;
+                border-radius: 8px;
+            }
+            .nav-logo-name {
+                font-size: 16px;
+                font-weight: 700;
+                color: var(--label);
+            }
+            .nav-links {
+                display: flex;
+                align-items: center;
+                gap: 28px;
+                list-style: none;
+            }
+            .nav-links a {
+                font-size: 14px;
+                font-weight: 500;
+                color: var(--label2);
+                transition: color 0.2s;
+            }
+            .nav-links a:hover {
+                color: var(--accent);
+            }
+
+            .pill-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                background: var(--accent);
+                color: #fff;
+                padding: 8px 20px;
+                border-radius: 30px;
+                font-size: 14px;
+                font-weight: 600;
+                transition:
+                    background 0.2s,
+                    transform 0.15s;
+            }
+            .pill-btn:hover {
+                background: var(--accent-d);
+                transform: translateY(-1px);
+            }
+
+            .hero {
+                text-align: center;
+                padding: 96px 40px 60px;
+            }
+            .hero-icon {
+                width: 120px;
+                height: 120px;
+                border-radius: 28px;
+                margin: 0 auto 36px;
+                box-shadow: 0 24px 64px rgba(174, 110, 82, 0.32);
+                transition: transform 0.3s;
+            }
+            .hero-icon:hover {
+                transform: scale(1.05) rotate(-2deg);
+            }
+
+            .hero-eyebrow {
+                display: inline-block;
+                font-size: 12px;
+                font-weight: 700;
+                letter-spacing: 1.8px;
+                text-transform: uppercase;
+                color: var(--accent);
+                background: var(--accent-l);
+                padding: 5px 14px;
+                border-radius: 30px;
+                margin-bottom: 24px;
+            }
+            .hero h1 {
+                font-size: clamp(38px, 6vw, 64px);
+                font-weight: 800;
+                line-height: 1.08;
+                letter-spacing: -2px;
+                color: var(--label);
+                margin-bottom: 22px;
+            }
+            .hero h1 em {
+                font-style: normal;
+                color: var(--accent);
+            }
+            .hero-sub {
+                font-size: 19px;
+                line-height: 1.65;
+                color: var(--muted);
+                max-width: 580px;
+                margin: 0 auto 44px;
+            }
+            .hero-actions {
+                display: flex;
+                gap: 14px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .btn-primary {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: var(--accent);
+                color: #fff;
+                padding: 15px 34px;
+                border-radius: var(--radius-md);
+                font-size: 16px;
+                font-weight: 700;
+                box-shadow: 0 4px 22px rgba(174, 110, 82, 0.36);
+                transition:
+                    background 0.2s,
+                    transform 0.15s,
+                    box-shadow 0.2s;
+            }
+            .btn-primary:hover {
+                background: var(--accent-d);
+                transform: translateY(-2px);
+                box-shadow: 0 10px 36px rgba(174, 110, 82, 0.42);
+            }
+            .btn-ghost {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: var(--surface);
+                color: var(--label2);
+                padding: 15px 34px;
+                border-radius: var(--radius-md);
+                font-size: 16px;
+                font-weight: 600;
+                border: 1.5px solid var(--sep);
+                transition:
+                    background 0.2s,
+                    transform 0.15s;
+            }
+            .btn-ghost:hover {
+                background: var(--accent-l);
+                transform: translateY(-2px);
+            }
+            .hero-meta {
+                margin-top: 18px;
+                font-size: 13px;
+                color: var(--muted);
+            }
+
+            .mockup-wrap {
+                max-width: 860px;
+                margin: 64px auto 0;
+                padding: 0 40px;
+            }
+            .app-window {
+                background: var(--bg);
+                border-radius: 18px;
+                border: 1px solid var(--sep);
+                box-shadow:
+                    0 0 0 1px rgba(49, 23, 23, 0.04),
+                    0 24px 80px rgba(49, 23, 23, 0.14),
+                    0 6px 20px rgba(49, 23, 23, 0.06);
+                overflow: hidden;
+            }
+            .win-chrome {
+                background: var(--surface);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 13px 18px;
+                border-bottom: 1px solid var(--sep);
+            }
+            .tl {
+                display: flex;
+                gap: 6px;
+            }
+            .tl span {
+                width: 13px;
+                height: 13px;
+                border-radius: 50%;
+                display: block;
+            }
+            .tl-r {
+                background: #ff5f57;
+            }
+            .tl-y {
+                background: #ffbd2e;
+            }
+            .tl-g {
+                background: #28c840;
+            }
+            .win-title {
+                flex: 1;
+                text-align: center;
+                font-size: 12px;
+                font-weight: 600;
+                color: var(--muted);
+            }
+            .win-body {
+                padding: 20px;
+            }
+
+            .m-header {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                background: var(--surface);
+                border-radius: 12px;
+                padding: 12px 16px;
+                border: 1px solid var(--sep);
+                margin-bottom: 14px;
+            }
+            .m-icon {
+                width: 36px;
+                height: 36px;
+                border-radius: 9px;
+            }
+            .m-title {
+                font-size: 14px;
+                font-weight: 700;
+                color: var(--label);
+            }
+            .m-sub {
+                font-size: 11px;
+                color: var(--muted);
+            }
+            .m-row {
+                display: flex;
+                gap: 10px;
+                align-items: stretch;
+                margin-bottom: 12px;
+            }
+            .m-field {
+                flex: 1;
+                background: #f4ede7;
+                border: 1px solid var(--sep);
+                border-radius: 9px;
+                padding: 9px 13px;
+                font-size: 12px;
+                color: var(--label2);
+            }
+            .m-btn {
+                background: var(--accent-l);
+                color: var(--label);
+                border-radius: 9px;
+                padding: 9px 15px;
+                font-size: 12px;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+            }
+            .m-btn.fill {
+                background: var(--accent);
+                color: #fff;
+            }
+            .m-btns {
+                display: flex;
+                gap: 8px;
+                margin-bottom: 12px;
+            }
+            .m-btns .m-btn:last-child {
+                margin-left: auto;
+            }
+            .m-prog {
+                height: 5px;
+                background: var(--sep);
+                border-radius: 3px;
+                margin-bottom: 14px;
+                overflow: hidden;
+            }
+            .m-prog-fill {
+                height: 100%;
+                width: 72%;
+                background: var(--accent);
+                border-radius: 3px;
+                animation: pulse 2.2s ease-in-out infinite;
+            }
+            @keyframes pulse {
+                0%,
+                100% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0.55;
+                }
+            }
+            .m-log {
+                background: var(--term);
+                border-radius: 12px;
+                padding: 14px 16px;
+                font-family: "Menlo", "Courier New", monospace;
+                font-size: 11px;
+                line-height: 1.75;
+                color: #f9f4f1;
+            }
+            .lc-dim {
+                color: #7a4f3e;
+            }
+            .lc-head {
+                color: #c7a082;
+            }
+            .lc-folder {
+                color: #c7a082;
+            }
+            .lc-green {
+                color: #3ea55a;
+            }
+
+            .divider {
+                height: 1px;
+                background: var(--sep);
+                max-width: 1120px;
+                margin: 0 auto;
+            }
+
+            .section {
+                padding: 100px 0;
+            }
+            .section-tag {
+                display: inline-block;
+                font-size: 11px;
+                font-weight: 700;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: var(--accent);
+                background: var(--accent-l);
+                padding: 5px 13px;
+                border-radius: 30px;
+                margin-bottom: 18px;
+            }
+            .section h2 {
+                font-size: clamp(30px, 4vw, 44px);
+                font-weight: 800;
+                letter-spacing: -1.2px;
+                color: var(--label);
+                margin-bottom: 14px;
+                line-height: 1.1;
+            }
+            .section-desc {
+                font-size: 17px;
+                line-height: 1.65;
+                color: var(--muted);
+                max-width: 540px;
+                margin-bottom: 56px;
+            }
+
+            .features-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 18px;
+            }
+            .feature-card {
+                background: var(--surface);
+                border-radius: var(--radius-lg);
+                padding: 32px 28px;
+                border: 1px solid var(--sep);
+                transition:
+                    transform 0.22s,
+                    box-shadow 0.22s;
+            }
+            .feature-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 16px 48px rgba(49, 23, 23, 0.09);
+            }
+            .feat-icon {
+                width: 52px;
+                height: 52px;
+                background: var(--accent-l);
+                border-radius: 14px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            .feature-card h3 {
+                font-size: 17px;
+                font-weight: 700;
+                color: var(--label);
+                margin-bottom: 8px;
+            }
+            .feature-card p {
+                font-size: 14px;
+                line-height: 1.65;
+                color: var(--muted);
+            }
+
+            .steps-wrap {
+                background: var(--surface);
+                border-top: 1px solid var(--sep);
+                border-bottom: 1px solid var(--sep);
+            }
+            .steps-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 40px;
+            }
+            .step {
+                position: relative;
+                padding-left: 0;
+            }
+            .step-num {
+                width: 48px;
+                height: 48px;
+                background: var(--accent);
+                color: #fff;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 20px;
+                font-weight: 800;
+                margin-bottom: 20px;
+                box-shadow: 0 6px 20px rgba(174, 110, 82, 0.35);
+            }
+            .step h3 {
+                font-size: 19px;
+                font-weight: 700;
+                color: var(--label);
+                margin-bottom: 10px;
+            }
+            .step p {
+                font-size: 15px;
+                line-height: 1.65;
+                color: var(--muted);
+            }
+
+            .structure-section {
+                padding: 100px 0;
+            }
+            .structure-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 24px;
+                margin-top: 0;
+            }
+            .struct-card {
+                background: var(--surface);
+                border-radius: var(--radius-lg);
+                border: 1px solid var(--sep);
+                overflow: hidden;
+            }
+            .struct-card-head {
+                background: var(--accent-l);
+                padding: 14px 22px;
+                font-size: 12px;
+                font-weight: 700;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                color: var(--accent);
+                border-bottom: 1px solid var(--sep);
+            }
+            .struct-card-body {
+                padding: 20px 22px;
+                font-family: "Menlo", "Courier New", monospace;
+                font-size: 12.5px;
+                line-height: 2;
+                color: var(--label2);
+            }
+            .tree-dir {
+                color: var(--accent);
+                font-weight: 600;
+            }
+            .tree-sub {
+                color: var(--label2);
+                padding-left: 18px;
+            }
+            .tree-file {
+                color: var(--muted);
+                padding-left: 36px;
+            }
+            .tree-new {
+                color: var(--accent);
+            }
+            .arrow-wrap {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 28px;
+                color: var(--accent);
+            }
+
+            .download-band {
+                background: linear-gradient(135deg, #311717 0%, #58302f 100%);
+                padding: 100px 40px;
+                text-align: center;
+            }
+            .download-band img {
+                width: 96px;
+                height: 96px;
+                border-radius: 22px;
+                margin: 0 auto 30px;
+                box-shadow: 0 16px 50px rgba(0, 0, 0, 0.4);
+            }
+            .download-band h2 {
+                font-size: clamp(32px, 5vw, 50px);
+                font-weight: 800;
+                letter-spacing: -1.5px;
+                color: #f9f4f1;
+                margin-bottom: 16px;
+            }
+            .download-band p {
+                font-size: 18px;
+                color: #c7a082;
+                max-width: 500px;
+                margin: 0 auto 40px;
+                line-height: 1.6;
+            }
+            .download-band .btn-primary {
+                background: var(--accent-l);
+                color: var(--label);
+                box-shadow: 0 4px 22px rgba(0, 0, 0, 0.3);
+            }
+            .download-band .btn-primary:hover {
+                background: #fff;
+                color: var(--label);
+            }
+            .req {
+                margin-top: 20px;
+                font-size: 13px;
+                color: #7a4f3e;
+            }
+
+            footer {
+                background: var(--surface);
+                border-top: 1px solid var(--sep);
+                padding: 36px 40px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 20px;
+                flex-wrap: wrap;
+            }
+            .footer-logo {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .footer-logo img {
+                width: 28px;
+                border-radius: 7px;
+            }
+            .footer-logo span {
+                font-size: 15px;
+                font-weight: 700;
+                color: var(--label);
+            }
+            footer p {
+                font-size: 13px;
+                color: var(--muted);
+            }
+            footer a {
+                color: var(--accent);
+            }
+            footer a:hover {
+                text-decoration: underline;
+            }
+
+            .reveal {
+                opacity: 0;
+                transform: translateY(28px);
+                transition:
+                    opacity 0.6s ease,
+                    transform 0.6s ease;
+            }
+            .reveal.visible {
+                opacity: 1;
+                transform: none;
+            }
+
+            @media (max-width: 860px) {
+                .features-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
+                .structure-grid {
+                    grid-template-columns: 1fr;
+                }
+                .arrow-wrap {
+                    display: none;
+                }
+            }
+            @media (max-width: 600px) {
+                .container {
+                    padding: 0 20px;
+                }
+                nav .nav-links li:not(:last-child) {
+                    display: none;
+                }
+                .features-grid {
+                    grid-template-columns: 1fr;
+                }
+                .steps-grid {
+                    grid-template-columns: 1fr;
+                }
+                .section {
+                    padding: 64px 0;
+                }
+                .mockup-wrap {
+                    padding: 0 20px;
+                }
+                footer {
+                    flex-direction: column;
+                    text-align: center;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <nav>
+            <div class="container nav-inner">
+                <a href="#" class="nav-logo">
+                    <img
+                        src="nutkeeper_icon_rounded.png"
+                        alt="NutKeeper icon"
+                    />
+                    <span class="nav-logo-name">NutKeeper</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How it works</a></li>
+                    <li><a href="#structure">File structure</a></li>
+                    <li>
+                        <a
+                            href="https://github.com/yourusername/nutkeeper"
+                            target="_blank"
+                            >GitHub</a
+                        >
+                    </li>
+                    <li><a href="#download" class="pill-btn">Download</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <section>
+            <div class="hero">
+                <img
+                    src="nutkeeper_icon_rounded.png"
+                    alt="NutKeeper"
+                    class="hero-icon"
+                />
+                <div class="hero-eyebrow">Free macOS App</div>
+                <h1>Your files,<br /><em>finally organised.</em></h1>
+                <p class="hero-sub">
+                    NutKeeper automatically sorts every file in a folder by type
+                    and date — in one click. No clutter, no cloud, no fuss.
+                </p>
+                <div class="hero-actions">
+                    <a href="#download" class="btn-primary">
+                        <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
+                        Download for macOS
+                    </a>
+                    <a href="#how-it-works" class="btn-ghost"
+                        >See how it works →</a
+                    >
+                </div>
+                <p class="hero-meta">
+                    Free &nbsp;·&nbsp; macOS 12 Monterey or later &nbsp;·&nbsp;
+                    No account required &nbsp;·&nbsp; ~23 MB
+                </p>
+            </div>
+
+            <div class="mockup-wrap reveal">
+                <div class="app-window">
+                    <div class="win-chrome">
+                        <div class="tl">
+                            <span class="tl-r"></span>
+                            <span class="tl-y"></span>
+                            <span class="tl-g"></span>
+                        </div>
+                        <div class="win-title">NutKeeper</div>
+                    </div>
+                    <div class="win-body">
+                        <div class="m-header">
+                            <img
+                                src="nutkeeper_icon_rounded.png"
+                                alt=""
+                                class="m-icon"
+                            />
+                            <div>
+                                <div class="m-title">NutKeeper</div>
+                                <div class="m-sub">
+                                    Sort files by type &amp; date · Archive
+                                    existing folders
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-row">
+                            <div class="m-field">~/Downloads</div>
+                            <div class="m-btn">Browse…</div>
+                        </div>
+                        <div class="m-btns">
+                            <div class="m-btn">Preview</div>
+                            <div class="m-btn fill">Organise Files</div>
+                            <div class="m-btn">Clear Log</div>
+                        </div>
+                        <div class="m-prog">
+                            <div class="m-prog-fill"></div>
+                        </div>
+                        <div class="m-log">
+                            <div class="lc-dim">
+                                ──────────────────────────────────────────────────────────
+                            </div>
+                            <div class="lc-head">ORGANISING</div>
+                            <div class="lc-dim">
+                                ──────────────────────────────────────────────────────────
+                            </div>
+                            <div>
+                                MOVE photo_summer_2024.jpg →
+                                Images/2024/08-August/
+                            </div>
+                            <div>
+                                MOVE Q3_report_final.pdf →
+                                Documents/2024/09-September/
+                            </div>
+                            <div class="lc-folder">
+                                FOLDER old_project → Preexisting Folders/
+                            </div>
+                            <div>
+                                MOVE podcast_ep42.mp3 → Audio/2024/07-July/
+                            </div>
+                            <div>MOVE backup.zip → Archives/2024/06-June/</div>
+                            <div class="lc-green">
+                                Done — Moved: 47 Errors: 0 Total: 47
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="features">
+            <div class="container">
+                <div class="reveal">
+                    <div class="section-tag">Features</div>
+                    <h2>Everything in its place.</h2>
+                    <p class="section-desc">
+                        NutKeeper handles all the tedious sorting so you never
+                        have to dig through a pile of files again.
+                    </p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card reveal">
+                        <div class="feat-icon">🗂️</div>
+                        <h3>Smart type sorting</h3>
+                        <p>
+                            Files land in Images, Videos, Documents, Audio,
+                            Archives, and Other — automatically detected by file
+                            extension.
+                        </p>
+                    </div>
+                    <div class="feature-card reveal">
+                        <div class="feat-icon">📅</div>
+                        <h3>Date-based subfolders</h3>
+                        <p>
+                            Inside each category, files are organised into year
+                            and month subfolders based on creation or
+                            modification date.
+                        </p>
+                    </div>
+                    <div class="feature-card reveal">
+                        <div class="feat-icon">📁</div>
+                        <h3>Folder archiving</h3>
+                        <p>
+                            Pre-existing subfolders are kept untouched and moved
+                            to a dedicated "Preexisting Folders" directory.
+                        </p>
+                    </div>
+                    <div class="feature-card reveal">
+                        <div class="feat-icon">👁️</div>
+                        <h3>Preview mode</h3>
+                        <p>
+                            See exactly what will happen before anything moves.
+                            Review every file's planned destination in the log.
+                        </p>
+                    </div>
+                    <div class="feature-card reveal">
+                        <div class="feat-icon">🔒</div>
+                        <h3>Duplicate-safe</h3>
+                        <p>
+                            Files are never overwritten. Name collisions are
+                            resolved automatically —
+                            <code
+                                style="
+                                    font-size: 12px;
+                                    background: var(--accent-l);
+                                    padding: 1px 5px;
+                                    border-radius: 4px;
+                                "
+                                >photo_1.jpg</code
+                            >,
+                            <code
+                                style="
+                                    font-size: 12px;
+                                    background: var(--accent-l);
+                                    padding: 1px 5px;
+                                    border-radius: 4px;
+                                "
+                                >photo_2.jpg</code
+                            >…
+                        </p>
+                    </div>
+                    <div class="feature-card reveal">
+                        <div class="feat-icon">⚡</div>
+                        <h3>Instant &amp; offline</h3>
+                        <p>
+                            No cloud, no account, no internet. Runs entirely on
+                            your Mac and processes thousands of files in
+                            seconds.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <section class="steps-wrap" id="how-it-works">
+            <div class="section container">
+                <div class="reveal">
+                    <div class="section-tag">How it works</div>
+                    <h2>Three steps to a clean folder.</h2>
+                    <p class="section-desc">
+                        Designed to be fast and obvious — no configuration, no
+                        learning curve.
+                    </p>
+                </div>
+                <div class="steps-grid">
+                    <div class="step reveal">
+                        <div class="step-num">1</div>
+                        <h3>Choose a folder</h3>
+                        <p>
+                            Click Browse and pick any folder on your Mac —
+                            Downloads, Desktop, an external drive, anywhere that
+                            needs a tidy-up.
+                        </p>
+                    </div>
+                    <div class="step reveal">
+                        <div class="step-num">2</div>
+                        <h3>Preview the plan</h3>
+                        <p>
+                            Hit Preview to see a complete breakdown of every
+                            file and where it will go. Nothing moves until you
+                            say so.
+                        </p>
+                    </div>
+                    <div class="step reveal">
+                        <div class="step-num">3</div>
+                        <h3>Organise</h3>
+                        <p>
+                            Click Organise Files and confirm. NutKeeper moves
+                            everything instantly and shows live progress in the
+                            activity log.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section structure-section" id="structure">
+            <div class="container">
+                <div class="reveal">
+                    <div class="section-tag">File structure</div>
+                    <h2>Before &amp; after.</h2>
+                    <p class="section-desc">
+                        NutKeeper transforms a chaotic folder into a clean,
+                        browsable hierarchy.
+                    </p>
+                </div>
+                <div class="structure-grid reveal">
+                    <div class="struct-card">
+                        <div class="struct-card-head">Before</div>
+                        <div class="struct-card-body">
+                            <div class="tree-dir">Downloads/</div>
+                            <div class="tree-file">photo_vacation.jpg</div>
+                            <div class="tree-file">report_q3.pdf</div>
+                            <div class="tree-file">song.mp3</div>
+                            <div class="tree-file">backup.zip</div>
+                            <div class="tree-file">clip.mp4</div>
+                            <div class="tree-file">notes.txt</div>
+                            <div class="tree-sub tree-dir">📁 old_project/</div>
+                            <div class="tree-file" style="padding-left: 54px">
+                                file.psd
+                            </div>
+                        </div>
+                    </div>
+                    <div class="arrow-wrap reveal" style="font-size: 36px">
+                        →
+                    </div>
+                    <div class="struct-card">
+                        <div class="struct-card-head">After</div>
+                        <div class="struct-card-body">
+                            <div class="tree-dir">Downloads/</div>
+                            <div class="tree-sub tree-dir">
+                                📂 Images/2024/08-August/
+                            </div>
+                            <div class="tree-file">photo_vacation.jpg</div>
+                            <div class="tree-sub tree-dir">
+                                📂 Documents/2024/09-Sep/
+                            </div>
+                            <div class="tree-file">
+                                report_q3.pdf &nbsp; notes.txt
+                            </div>
+                            <div class="tree-sub tree-dir">
+                                📂 Audio/2023/11-Nov/
+                            </div>
+                            <div class="tree-file">song.mp3</div>
+                            <div class="tree-sub tree-dir">
+                                📂 Archives/2024/03-Mar/
+                            </div>
+                            <div class="tree-file">backup.zip</div>
+                            <div class="tree-sub tree-dir">
+                                📂 Videos/2024/07-Jul/
+                            </div>
+                            <div class="tree-file">clip.mp4</div>
+                            <div class="tree-sub tree-dir tree-new">
+                                📁 Preexisting Folders/
+                            </div>
+                            <div
+                                class="tree-file tree-new"
+                                style="padding-left: 54px"
+                            >
+                                old_project/ ✦ intact
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="download-band" id="download">
+            <img src="nutkeeper_icon_rounded.png" alt="NutKeeper" />
+            <h2>Download NutKeeper</h2>
+            <p>
+                Free, forever. Drag it to your Applications folder and start
+                organising in seconds.
+            </p>
+            <a
+                href="https://github.com/SimonPaulBoehm/NutKeeper/releases/latest/download/NutKeeper.dmg"
+                class="btn-primary"
+            >
+                <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Download .dmg &nbsp;—&nbsp; v1.0
+            </a>
+            <p class="req">
+                macOS 12 Monterey or later &nbsp;·&nbsp; Apple Silicon &amp;
+                Intel &nbsp;·&nbsp; ~23 MB
+            </p>
+        </section>
+
+        <footer>
+            <div class="footer-logo">
+                <img src="nutkeeper_icon_rounded.png" alt="" />
+                <span>NutKeeper</span>
+            </div>
+            <p>
+                <a
+                    href="https://github.com/SimonPaulBoehm/nutkeeper"
+                    target="_blank"
+                    >View source on GitHub</a
+                >
+            </p>
+            <p>© 2026 NutKeeper</p>
+        </footer>
+
+        <script>
+            const observer = new IntersectionObserver(
+                (entries) =>
+                    entries.forEach((e) => {
+                        if (e.isIntersecting) e.target.classList.add("visible");
+                    }),
+                { threshold: 0.12 },
+            );
+            document
+                .querySelectorAll(".reveal")
+                .forEach((el) => observer.observe(el));
+        </script>
+    </body>
+</html>
