@@ -457,6 +457,7 @@
                 justify-content: center;
                 font-size: 24px;
                 margin-bottom: 20px;
+                color: var(--accent);
             }
             .feature-card h3 {
                 font-size: 17px;
@@ -557,13 +558,6 @@
             .tree-new {
                 color: var(--accent);
             }
-            .arrow-wrap {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 28px;
-                color: var(--accent);
-            }
 
             .download-band {
                 background: linear-gradient(135deg, #311717 0%, #58302f 100%);
@@ -660,13 +654,10 @@
                 .structure-grid {
                     grid-template-columns: 1fr;
                 }
-                .arrow-wrap {
-                    display: none;
-                }
             }
             @media (max-width: 600px) {
                 .container {
-                    padding: 0 20px;
+                    padding: 0 24px;
                 }
                 nav .nav-links li:not(:last-child) {
                     display: none;
@@ -680,12 +671,82 @@
                 .section {
                     padding: 64px 0;
                 }
+                .structure-section {
+                    padding: 64px 0;
+                }
                 .mockup-wrap {
-                    padding: 0 20px;
+                    padding: 0 24px;
+                    margin-top: 40px;
+                }
+                .hero {
+                    padding: 60px 24px 40px;
+                }
+                .hero-sub {
+                    font-size: 16px;
+                }
+                .hero-actions {
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+                .btn-primary,
+                .btn-ghost {
+                    justify-content: center;
+                    padding: 14px 24px;
+                }
+                .hero-meta {
+                    font-size: 11px;
+                    line-height: 1.8;
+                }
+                .m-log {
+                    overflow-x: auto;
+                    font-size: 10px;
+                }
+                .m-btns {
+                    flex-wrap: wrap;
+                }
+                .download-band {
+                    padding: 72px 24px;
+                }
+                .section-desc {
+                    font-size: 15px;
+                    margin-bottom: 40px;
+                }
+                .steps-grid {
+                    gap: 0;
+                }
+                .step {
+                    display: grid;
+                    grid-template-columns: 48px 1fr;
+                    grid-template-rows: auto auto;
+                    column-gap: 16px;
+                    row-gap: 4px;
+                    padding: 24px 0;
+                    border-bottom: 1px solid var(--sep);
+                    align-items: start;
+                }
+                .step:last-child {
+                    border-bottom: none;
+                    padding-bottom: 0;
+                }
+                .step-num {
+                    grid-row: 1 / 3;
+                    margin-bottom: 0;
+                    align-self: start;
+                    margin-top: 2px;
+                }
+                .step h3 {
+                    font-size: 16px;
+                    margin-bottom: 0;
+                    align-self: end;
+                }
+                .step p {
+                    font-size: 14px;
+                    grid-column: 2;
                 }
                 footer {
                     flex-direction: column;
                     text-align: center;
+                    padding: 28px 20px;
                 }
             }
         </style>
@@ -838,7 +899,7 @@
                 </div>
                 <div class="features-grid">
                     <div class="feature-card reveal">
-                        <div class="feat-icon">🗂️</div>
+                        <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
                         <h3>Smart type sorting</h3>
                         <p>
                             Files land in Images, Videos, Documents, Audio,
@@ -847,7 +908,7 @@
                         </p>
                     </div>
                     <div class="feature-card reveal">
-                        <div class="feat-icon">📅</div>
+                        <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
                         <h3>Date-based subfolders</h3>
                         <p>
                             Inside each category, files are organised into year
@@ -856,7 +917,7 @@
                         </p>
                     </div>
                     <div class="feature-card reveal">
-                        <div class="feat-icon">📁</div>
+                        <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg></div>
                         <h3>Folder archiving</h3>
                         <p>
                             Pre-existing subfolders are kept untouched and moved
@@ -864,7 +925,7 @@
                         </p>
                     </div>
                     <div class="feature-card reveal">
-                        <div class="feat-icon">👁️</div>
+                        <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
                         <h3>Preview mode</h3>
                         <p>
                             See exactly what will happen before anything moves.
@@ -872,7 +933,7 @@
                         </p>
                     </div>
                     <div class="feature-card reveal">
-                        <div class="feat-icon">🔒</div>
+                        <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
                         <h3>Duplicate-safe</h3>
                         <p>
                             Files are never overwritten. Name collisions are
@@ -898,7 +959,7 @@
                         </p>
                     </div>
                     <div class="feature-card reveal">
-                        <div class="feat-icon">⚡</div>
+                        <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
                         <h3>Instant &amp; offline</h3>
                         <p>
                             No cloud, no account, no internet. Runs entirely on
@@ -975,43 +1036,40 @@
                             <div class="tree-file">backup.zip</div>
                             <div class="tree-file">clip.mp4</div>
                             <div class="tree-file">notes.txt</div>
-                            <div class="tree-sub tree-dir">📁 old_project/</div>
+                            <div class="tree-sub tree-dir"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-1px;margin-right:4px"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>old_project/</div>
                             <div class="tree-file" style="padding-left: 54px">
                                 file.psd
                             </div>
                         </div>
-                    </div>
-                    <div class="arrow-wrap reveal" style="font-size: 36px">
-                        →
                     </div>
                     <div class="struct-card">
                         <div class="struct-card-head">After</div>
                         <div class="struct-card-body">
                             <div class="tree-dir">Downloads/</div>
                             <div class="tree-sub tree-dir">
-                                📂 Images/2024/08-August/
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-1px;margin-right:4px"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/><line x1="2" y1="10" x2="22" y2="10"/></svg>Images/2024/08-August/
                             </div>
                             <div class="tree-file">photo_vacation.jpg</div>
                             <div class="tree-sub tree-dir">
-                                📂 Documents/2024/09-Sep/
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-1px;margin-right:4px"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/><line x1="2" y1="10" x2="22" y2="10"/></svg>Documents/2024/09-Sep/
                             </div>
                             <div class="tree-file">
                                 report_q3.pdf &nbsp; notes.txt
                             </div>
                             <div class="tree-sub tree-dir">
-                                📂 Audio/2023/11-Nov/
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-1px;margin-right:4px"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/><line x1="2" y1="10" x2="22" y2="10"/></svg>Audio/2023/11-Nov/
                             </div>
                             <div class="tree-file">song.mp3</div>
                             <div class="tree-sub tree-dir">
-                                📂 Archives/2024/03-Mar/
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-1px;margin-right:4px"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/><line x1="2" y1="10" x2="22" y2="10"/></svg>Archives/2024/03-Mar/
                             </div>
                             <div class="tree-file">backup.zip</div>
                             <div class="tree-sub tree-dir">
-                                📂 Videos/2024/07-Jul/
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-1px;margin-right:4px"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/><line x1="2" y1="10" x2="22" y2="10"/></svg>Videos/2024/07-Jul/
                             </div>
                             <div class="tree-file">clip.mp4</div>
                             <div class="tree-sub tree-dir tree-new">
-                                📁 Preexisting Folders/
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-1px;margin-right:4px"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>Preexisting Folders/
                             </div>
                             <div
                                 class="tree-file tree-new"
